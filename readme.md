@@ -46,7 +46,7 @@ python -m unittest test_ad_functions.py
 Avant de lancer les tests Pester, ouvrir PowerShell en administrateur et autoriser les scripts :
 
 ```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine -Force
 ```
 
 Installer Pester (si non déjà présent) :
