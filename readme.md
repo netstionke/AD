@@ -14,7 +14,7 @@
 
 ## Prérequis
 
-- Python 3.8+
+- Python 3.12+
 - Poetry (ou `pip` pour `requirements.txt`)
 - PowerShell 5.1+
 - Module PowerShell Pester (installé ci-dessous)
