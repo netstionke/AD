@@ -1,19 +1,108 @@
-Faire un poetry install
+# Mon projet AD Automation
 
-pip install -r requirements.txt
+Un ensemble de scripts pour gérer les unités d'organisation (OU) et les comptes utilisateurs Active Directory, avec tests automatisés Python et PowerShell.
 
+## Table des matières
+
+- [Prérequis](#prérequis)
+- [Installation](#installation)
+- [Tests Python](#tests-python)
+- [Tests PowerShell](#tests-powershell)
+- [Exécution des scripts](#exécution-des-scripts)
+  - [1. Création de l'OU et des utilisateurs](#1-création-de-lou-et-des-utilisateurs)
+  - [2. Activation des utilisateurs](#2-activation-des-utilisateurs)
+  - [3. Tests post-activation](#3-tests-post-activation)
+  - [4. Désactivation des utilisateurs inactifs](#4-désactivation-des-utilisateurs-inactifs)
+- [Licence](#licence)
+
+---
+
+## Prérequis
+
+- Python 3.8+
+- Poetry (ou `pip` pour `requirements.txt`)
+- PowerShell 5.1+
+- Module PowerShell Pester (installé ci-dessous)
+
+## Installation
+
+1. Installer les dépendances Python via Poetry :
+
+   ```bash
+   poetry install
+   ```
+
+   *ou via `pip` :*
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Tests Python
+
+Exécuter les tests unitaires pour les fonctions AD :
+
+```bash
 python -m unittest test_ad_functions.py
+```
 
-Run le script python "createOU_USR.py", vérifier la création de l'OU et des 3 users,
+## Tests PowerShell
 
-Avant de run le prochain script, Set-ExecutionPolicy Bypass et le run en admin
+Avant de lancer les tests Pester, ouvrir PowerShell en administrateur et autoriser les scripts :
 
+```powershell
+Set-ExecutionPolicy Bypass -Scope Process -Force
+```
+
+Installer Pester (si non déjà présent) :
+
+```powershell
 Install-Module -Name Pester -Force -SkipPublisherCheck
+```
 
-Invoke-Pester -Path .\Invoke-Pester -Path .\Test-ChangeUserPasswordsAndStatus.Tests.ps1
+Lancer les tests :
 
-Run le script ActivateUsers.ps1, les utilisateurs doivent être activés
+```powershell
+Invoke-Pester -Path .\Test-ChangeUserPasswordsAndStatus.Tests.ps1
+```
 
-Puis re-faire Invoke-Pester -Path .\Test-ChangeUserPasswordsAndStatus.Tests.ps1
+## Exécution des scripts
 
-Une fois le test user validé, attendre un jour pour faire le script lastLogon.py, qui va désactiver les utilisateurs pas connecter depuis au moins 1j
+### 1. Création de l'OU et des utilisateurs
+
+```bash
+python createOU_USR.py
+```
+
+> Vérifiez dans Active Directory que l'OU et les 3 comptes utilisateurs ont bien été créés.
+
+### 2. Activation des utilisateurs
+
+```powershell
+.\ActivateUsers.ps1
+```
+
+> Tous les comptes doivent passer en état « activé ».
+
+### 3. Tests post-activation
+
+Re-lancer les tests Pester pour valider l'activation :
+
+```powershell
+Invoke-Pester -Path .\Test-ChangeUserPasswordsAndStatus.Tests.ps1
+```
+
+### 4. Désactivation des utilisateurs inactifs
+
+Attendre au moins 24 heures, puis exécuter :
+
+```bash
+python lastLogon.py
+```
+
+> Les comptes n'ayant pas eu de connexion depuis au moins 1 jour seront désactivés.
+
+## Licence
+
+Ce projet est sous licence MIT. Pour plus de détails, voir le fichier `LICENSE`.
+
