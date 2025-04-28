@@ -77,7 +77,7 @@ python createOU_USR.py
 .\ActivateUsers.ps1
 ```
 
-> Tous les comptes doivent passer en état « activé ».
+> Tous les comptes doivent passer en état « activé ».
 
 ### 3. Tests post-activation
 
@@ -89,10 +89,23 @@ Invoke-Pester -Path .\Test-ChangeUserPasswordsAndStatus.Tests.ps1
 
 ### 4. Désactivation des utilisateurs inactifs
 
-Attendre au moins 24 heures, puis exécuter :
+#### 4.1 Tests unitaires avant exécution
+
+Pour garantir que le script `lastLogon.py` fonctionne comme prévu, lancez d'abord un test unitaire Python :
+
+1. **Exécuter le test** :
+
+   ```bash
+   python -m unittest test_lastLogon.py
+   ```
+
+#### 4.2 Exécution du script
+
+Une fois le test validé, lancez le script de désactivation :
 
 ```bash
 python lastLogon.py
 ```
 
 > Les comptes n'ayant pas eu de connexion depuis au moins 1 jour seront désactivés.
+
