@@ -1,7 +1,3 @@
-# Mon projet AD Automation
-
-Un ensemble de scripts pour gérer les unités d'organisation (OU) et les comptes utilisateurs Active Directory, avec tests automatisés Python et PowerShell.
-
 ## Table des matières
 
 - [Prérequis](#prérequis)
@@ -13,7 +9,6 @@ Un ensemble de scripts pour gérer les unités d'organisation (OU) et les compte
   - [2. Activation des utilisateurs](#2-activation-des-utilisateurs)
   - [3. Tests post-activation](#3-tests-post-activation)
   - [4. Désactivation des utilisateurs inactifs](#4-désactivation-des-utilisateurs-inactifs)
-- [Licence](#licence)
 
 ---
 
@@ -101,8 +96,3 @@ python lastLogon.py
 ```
 
 > Les comptes n'ayant pas eu de connexion depuis au moins 1 jour seront désactivés.
-
-## Licence
-
-Ce projet est sous licence MIT. Pour plus de détails, voir le fichier `LICENSE`.
-
