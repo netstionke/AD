@@ -89,6 +89,13 @@ Invoke-Pester -Path .\Test-ChangeUserPasswordsAndStatus.Tests.ps1
 
 ### 4. Désactivation des utilisateurs inactifs
 
+```powershell
+Get-ADUser -Filter * -SearchBase "OU=disabledUser,DC=ynov,DC=local" -Properties LastLogonDate |
+    Select-Object Name, LastLogonDate |
+    Format-Table -AutoSize
+```
+> En cas de besoin de vérification de la dernières connexion des utilisateurs, passer cette commande PowerShell
+
 #### 4.1 Tests unitaires avant exécution
 
 Pour garantir que le script `lastLogon.py` fonctionne comme prévu, lancez d'abord un test unitaire Python :
